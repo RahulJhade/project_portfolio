@@ -5,7 +5,7 @@ import ProjectCard from './components/ProjectCard';
 import ProjectModal from './components/ProjectModal';
 import Toast from './components/Toast';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://project-portfolio-ko1p.onrender.com/';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 function App() {
   const [projects, setProjects] = useState([]);
@@ -19,7 +19,7 @@ function App() {
   // Fetch all projects
   useEffect(() => {
     fetchProjects();
-  }, [fetchProjects]);
+  }, []);
 
   // Filter projects when search term changes
   useEffect(() => {
