@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './App.css';
 import ProjectCard from './components/ProjectCard';
@@ -16,10 +16,25 @@ function App() {
   const [editingProject, setEditingProject] = useState(null);
   const [toast, setToast] = useState(null);
 
-  // Fetch all projects
+  // Wrap fetchProjects with useCallback to fix dependency warning
+  const fetchProjects = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API_URL}/projects`);
+      setProjects(response.data.data || []);
+      setFilteredProjects(response.data.data || []);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+      showToast('Failed to fetch projects. Please check if the backend server is running.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Fetch all projects on mount
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [fetchProjects]);
 
   // Filter projects when search term changes
   useEffect(() => {
@@ -37,27 +52,13 @@ function App() {
     }
   }, [searchTerm, projects]);
 
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${API_URL}/projects`);
-      setProjects(response.data.data || []);
-      setFilteredProjects(response.data.data || []);
-    } catch (error) {
-      console.error('Error fetching projects:', error);
-      showToast('Failed to fetch projects. Please check if the backend server is running.', 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const showToast = (message, type = 'success') => {
+  const showToast = useCallback((message, type = 'success') => {
     setToast({ message, type });
-  };
+  }, []);
 
-  const closeToast = () => {
+  const closeToast = useCallback(() => {
     setToast(null);
-  };
+  }, []);
 
   const handleAddProject = () => {
     setEditingProject(null);
