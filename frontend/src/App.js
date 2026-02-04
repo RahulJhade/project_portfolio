@@ -19,7 +19,7 @@ function App() {
   // Fetch all projects
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [fetchProjects]);
 
   // Filter projects when search term changes
   useEffect(() => {
