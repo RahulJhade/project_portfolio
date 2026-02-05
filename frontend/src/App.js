@@ -54,11 +54,11 @@ function App() {
 
   const showToast = useCallback((message, type = 'success') => {
     setToast({ message, type });
-  }, []);
+  }, [showToast]);
 
   const closeToast = useCallback(() => {
     setToast(null);
-  }, []);
+  }, [closeToast]);
 
   const handleAddProject = () => {
     setEditingProject(null);
