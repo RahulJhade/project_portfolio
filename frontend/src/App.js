@@ -5,7 +5,7 @@ import ProjectCard from './components/ProjectCard';
 import ProjectModal from './components/ProjectModal';
 import Toast from './components/Toast';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = 'https://project-portfolio-ko1p.onrender.com/api';
 
 function App() {
   const [projects, setProjects] = useState([]);
